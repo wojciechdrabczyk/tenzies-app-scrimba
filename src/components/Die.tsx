@@ -1,10 +1,13 @@
 type DieProps = {
     value: number;
+    isHeld: boolean;
+    toggleHold: () => void;
 };
 
-const Die = ({value}: DieProps) => {
+const Die = ({value, isHeld, toggleHold}: DieProps) => {
+
     return (
-        <button className={"die"}>
+        <button className={"die"} onClick={toggleHold}>
             {value}
         </button>
     )
