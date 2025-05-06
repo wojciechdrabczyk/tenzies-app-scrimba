@@ -1,7 +1,6 @@
 import './App.css'
 import Die from "./components/Die.tsx";
 import * as React from "react";
-import die from "./components/Die.tsx";
 import {nanoid} from 'nanoid'
 
 function App() {
@@ -21,20 +20,19 @@ function App() {
         setDice(generateAllNewDice)
     }
 
-    function toggleHold(index) {
+    function toggleHold(id: string) {
         setDice(prevState =>
-            prevState.map((die, i) => {
-                if (i === index) {
-                    return {
-                        ...die,
-                        isHeld: !die.isHeld
-                    }
+            prevState.map(die => {
+                if (die.id === id) {
+                    return { ...die, isHeld: !die.isHeld };
                 } else {
-                    return die
+                    return die;
                 }
             })
-        )
+        );
     }
+
+
 
     const ValueMapped = dice.map((dieValue) => (
         <Die

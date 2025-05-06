@@ -7,7 +7,7 @@ type DieProps = {
 const Die = ({value, isHeld, toggleHold}: DieProps) => {
 
     return (
-        <button className={"die"} onClick={toggleHold}>
+        <button className={`die ${isHeld ? "held" :  ""}`} onClick={toggleHold}>
             {value}
         </button>
     )
