@@ -2,7 +2,7 @@ import './App.css'
 import Die from "./components/Die.tsx";
 import * as React from "react";
 import die from "./components/Die.tsx";
-import { nanoid } from 'nanoid'
+import {nanoid} from 'nanoid'
 
 function App() {
 
@@ -12,7 +12,7 @@ function App() {
         const newDice = [];
         for (let i = 0; i < 10; i++) {
             const random = Math.ceil(Math.random() * 6)
-            newDice.push({value: random, isHeld: false})
+            newDice.push({value: random, isHeld: false, id: nanoid()})
         }
         return newDice
     }
@@ -36,12 +36,12 @@ function App() {
         )
     }
 
-    const ValueMapped = dice.map((dieValue, index) => (
+    const ValueMapped = dice.map((dieValue) => (
         <Die
-            key={index}
+            key={dieValue.id}
             value={dieValue.value}
             isHeld={dieValue.isHeld}
-            toggleHold={() => toggleHold(index)}
+            toggleHold={() => toggleHold(dieValue.id)}
         />
     ))
 
