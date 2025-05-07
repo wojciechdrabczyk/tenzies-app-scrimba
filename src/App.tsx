@@ -2,11 +2,14 @@ import './App.css'
 import Die from "./components/Die.tsx";
 import * as React from "react";
 import {nanoid} from 'nanoid'
+import Confetti from 'react-confetti'
+import {useEffect} from "react";
 
 function App() {
 
     const [dice, setDice] = React.useState(generateAllNewDice())
     const [hasWon, setHasWon] = React.useState(false);
+    const buttonRef = React.useRef(null)
 
     function generateAllNewDice() {
         const newDice = [];
@@ -28,11 +31,12 @@ function App() {
                 }
             });
             const allHeld = newDice.every(die => die.isHeld);
-            if (allHeld) {
-                setHasWon(true)
-                setTimeout(newGame, 2000)
+            const allSameValue = newDice.every(die => die.value === newDice[0].value);
+
+            if (allHeld && allSameValue) {
+                setHasWon(true);  // Set the win state
             }
-            return newDice
+            return newDice;
         });
     }
 
@@ -53,6 +57,12 @@ function App() {
         );
     }
 
+    useEffect(() => {
+        if(hasWon && buttonRef.current) {
+            buttonRef.current.focus();
+        }
+    }, [hasWon])
+
 
     const ValueMapped = dice.map((dieValue) => (
         <Die
@@ -70,10 +80,13 @@ function App() {
             <div className="dice-container">
                 {ValueMapped}
             </div>
-
-            {hasWon && <p className={"win-message"}>You've won congratulations</p>}
-
-            <button className={"dice-button"} onClick={rollDice}>Roll</button>
+            {hasWon && <p className={"win-message"}><Confetti/></p>}
+            <button className={"dice-button"}
+                    onClick={hasWon ? newGame : rollDice}
+                    ref={buttonRef}
+            >
+                {hasWon ? "New Game" : "Roll"}
+            </button>
         </main>
     )
 }
